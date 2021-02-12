@@ -94,13 +94,13 @@ const data = [
   Your component is a function that takes an article object as its only argument,
   and returns a DOM node looking like the one below:
 
-  <div class="article">
-    <h2>{title of the article}</h2>
-    <p class="date">{date of the article}</p>
+  <div class="article">                                 // articleDiv
+    <h2>{title of the article}</h2>                     // articleTitle
+    <p class="date">{date of the article}</p>           // articlePara1
+                                                        // articlePara2
+    {three separate paragraph elements}                 // articlePara3
 
-    {three separate paragraph elements}
-
-    <span class="expandButton">+</span>
+    <span class="expandButton">+</span>                 // articleSpan
   </div>
 
   Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
@@ -114,3 +114,47 @@ const data = [
   Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
   Refresh the page to see the new article.
 */
+const articleList = document.querySelector('.articles')
+
+function articleMaker(article) {
+
+  const articleDiv = document.createElement('div')
+  const articleTitle = document.createElement('h2')
+  const articlePara1 = document.createElement('p')
+  const articlePara2 = document.createElement('p')
+  const articlePara3 = document.createElement('p')
+  const articleSpan = document.createElement('span')
+  const date = document.createElement('date')
+  
+  articleDiv.appendChild(articleTitle)
+  articleDiv.appendChild(date)
+  articleDiv.appendChild(articlePara1)
+  articleDiv.appendChild(articlePara2)
+  articleDiv.appendChild(articlePara3)
+  articleDiv.appendChild(articleSpan)
+
+  articleDiv.classList.add('article')
+  date.classList.add('date')
+  articleSpan.classList.add('expandButton')
+
+  articleTitle.textContent = article.title
+  date.textContent = article.date
+  articlePara1.textContent = article.firstParagraph
+  articlePara2.textContent = article.secondParagraph
+  articlePara3.textContent = article.thirdParagraph
+  articleSpan.textContent = '+'
+
+  articleSpan.addEventListener('click', () => {
+    articleDiv.classList.toggle('article-open')
+  })
+
+  return articleDiv
+}
+
+const articleElems = data.map(item => {
+  return articleMaker(item)
+}) 
+
+articleElems.forEach(data => {
+  articleList.appendChild(data)
+})
